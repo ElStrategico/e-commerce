@@ -16,4 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'AuthController@login');
+    Route::get('me', 'AuthController@me')->middleware('auth');
+    Route::post('refresh', 'AuthController@refresh')->middleware('auth');
+    Route::post('logout', 'AuthController@logout')->middleware('auth');
+});
+
+
+Route::group(['prefix' => 'users'], function () {
+    Route::post('', 'UserController@create');
 });
