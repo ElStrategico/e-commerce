@@ -25,3 +25,12 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['prefix' => 'users'], function () {
     Route::post('', 'UserController@create');
 });
+
+Route::group(['prefix' => 'rules'], function () {
+    Route::get('', 'RuleController@index')->middleware('auth');
+});
+
+Route::group(['prefix' => 'security'], function () {
+    Route::put('email', 'SecurityController@changeEmail')->middleware('auth');
+    Route::put('password', 'SecurityController@changePassword')->middleware('auth');
+});
