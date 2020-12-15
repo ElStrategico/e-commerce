@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Rule;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +23,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -41,6 +44,28 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rules()
+    {
+        return $this->belongsToMany(Rule::class);
+    }
+
+    /**
+     * @param Rule $rule
+     * @return bool
+     */
+    public function hasRule(Rule $rule)
+    {
+        foreach($this->rules as $ownRule)
+        {
+            if($ownRule->id == $rule->id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
