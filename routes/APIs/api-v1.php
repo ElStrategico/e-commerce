@@ -34,3 +34,7 @@ Route::group(['prefix' => 'security'], function () {
     Route::put('email', 'SecurityController@changeEmail')->middleware('auth');
     Route::put('password', 'SecurityController@changePassword')->middleware('auth');
 });
+
+Route::group(['prefix' => 'products'], function () {
+    Route::get('{product}', 'ProductController@show');
+});
