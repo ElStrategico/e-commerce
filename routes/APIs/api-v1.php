@@ -38,4 +38,14 @@ Route::group(['prefix' => 'security'], function () {
 Route::group(['prefix' => 'products'], function () {
     Route::get('', 'ProductController@index');
     Route::get('{product}', 'ProductController@show');
+    Route::post('', "ProductController@store")->middleware('check:admin');
+    Route::put('{product}', 'ProductController@update')->middleware('check:admin');
+    Route::delete('{product}', 'ProductController@delete')->middleware('check:admin');
+
+    Route::post('{product}/like', 'ProductLikeController@store')->middleware('auth');
+    Route::delete('{product}/like', 'ProductLikeController@delete')->middleware('auth');
+});
+
+Route::group(['prefix' => 'carts'], function () {
+    Route::get('', 'CartController@index')->middleware('auth');
 });
