@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Models\User;
-use App\Models\Product;
-use App\Models\ProductLike;
-use Illuminate\Http\Request;
+use App\Models\Produce\Product;
+use App\Models\Produce\ProductLike;
 use App\Http\Controllers\Controller;
 
 class ProductLikeController extends Controller
@@ -26,5 +25,17 @@ class ProductLikeController extends Controller
         }
 
         return ProductLike::like($product, $user);
+    }
+
+    /**
+     * @param Product $product
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(Product $product)
+    {
+        $user = User::find(auth()->id());
+        $productLike = ProductLike::findLike($product, $user);
+
+        return $productLike->delete();
     }
 }
