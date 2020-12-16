@@ -50,6 +50,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Rule::class);
     }
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
     /**
      * @param Rule $rule
      * @return bool
