@@ -11,13 +11,16 @@ class ProductLike extends Model
         'product_id', 'user_id'
     ];
 
+    public static function findLike(Product $product, User $user)
+    {
+        return self::where('product_id', '=', $product->id)->
+                     where('user_id', '=', $user->id)->
+                     first();
+    }
+
     public static function likeExists(Product $product, User $user)
     {
-        $productLike = self::where('product_id', '=', $product->id)->
-                             where('user_id', '=', $user->id)->
-                             first();
-
-        return $productLike != null;
+        return self::findLike($product, $user) != null;
     }
 
     public static function like(Product $product, User $user)
