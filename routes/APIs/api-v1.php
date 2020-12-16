@@ -36,5 +36,6 @@ Route::group(['prefix' => 'security'], function () {
 });
 
 Route::group(['prefix' => 'products'], function () {
+    Route::get('', 'ProductController@index');
     Route::get('{product}', 'ProductController@show');
 });
