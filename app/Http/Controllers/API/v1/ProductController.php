@@ -31,8 +31,6 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $user = User::find(auth()->id());
-
         $product->category;
         $product->models;
         $product->images;
