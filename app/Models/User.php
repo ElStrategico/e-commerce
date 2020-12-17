@@ -50,9 +50,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Rule::class);
     }
 
-    public function carts()
+    public function cartsProducts()
     {
-        return $this->hasMany(Cart::class);
+        return $this->hasMany(Cart::class)->
+                      join('products', 'carts.product_id', '=', 'products.id')->
+                      where('archive', '!=', Cart::ARCHIVE)->
+                      get();
     }
 
     /**
