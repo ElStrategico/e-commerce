@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'AuthController@login');
     Route::get('me', 'AuthController@me')->middleware('auth');
-    Route::post('refresh', 'AuthController@refresh')->middleware('auth');
+    Route::post('refresh', 'AuthController@refresh');
     Route::post('logout', 'AuthController@logout')->middleware('auth');
 });
 
@@ -44,8 +44,14 @@ Route::group(['prefix' => 'products'], function () {
 
     Route::post('{product}/like', 'ProductLikeController@store')->middleware('auth');
     Route::delete('{product}/like', 'ProductLikeController@delete')->middleware('auth');
+
+    Route::post('{product}/carts', 'CartController@store');
 });
 
-Route::group(['prefix' => 'carts'], function () {
-    Route::get('', 'CartController@index')->middleware('auth');
+Route::group(['prefix' => 'carts', 'middleware' => ['auth']], function () {
+    Route::get('', 'CartController@index');
+    Route::get('total', 'CartController@total');
+    Route::get('{cart}', 'CartController@show');
+    Route::put('{cart}', 'CartController@update')->middleware('can:owner,cart');
+    Route::delete('{cart}', 'CartController@delete')->middleware('can:owner,cart');
 });
