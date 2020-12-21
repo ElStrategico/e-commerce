@@ -14,6 +14,10 @@ class Cart extends Model
         'user_id', 'product_id', 'model_id', 'amount'
     ];
 
+    protected $hidden = [
+        'archive'
+    ];
+
     public function increaseAmount($delta)
     {
         $this->amount += $delta;
