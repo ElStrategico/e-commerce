@@ -32,9 +32,13 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $product->category;
-        $product->models;
+        foreach($product->models as $model)
+        {
+            $model->details;
+        }
         $product->images;
         $product->videos;
+        $product->details;
 
         $product->increaseViews();
 
