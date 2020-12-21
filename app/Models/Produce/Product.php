@@ -43,6 +43,12 @@ class Product extends Model
         return $this->hasMany(ProductVideo::class);
     }
 
+    public function details()
+    {
+        return $this->belongsToMany(Detail::class)->
+                      select('name', 'description', 'value');
+    }
+
     public function hasModel(ProductModel $productModel)
     {
         return $this->id == $productModel->product_id;
