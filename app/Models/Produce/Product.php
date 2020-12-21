@@ -2,7 +2,6 @@
 
 namespace App\Models\Produce;
 
-use App\Models\Produce\ProductModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -24,6 +23,16 @@ class Product extends Model
         return $this->hasMany(ProductModel::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(ProductComment::class);
+    }
+
     public function images()
     {
         return $this->hasMany(ProductImage::class);
@@ -34,6 +43,11 @@ class Product extends Model
         return $this->hasMany(ProductVideo::class);
     }
 
+    public function hasModel(ProductModel $productModel)
+    {
+        return $this->id == $productModel->product_id;
+    }
+
     /**
      * @return bool
      */
@@ -42,5 +56,20 @@ class Product extends Model
         $this->views++;
 
         return $this->save();
+    }
+
+    public function paginateComments()
+    {
+        $comments = $this->comments()->
+                           where('reply_review_id', '=', null)->
+                           where('reply_comment_id', '=', null)->
+                           paginate(ProductComment::LIMIT);
+
+        foreach($comments as $comment)
+        {
+            $comment->reply_comments = $comment->firstReplyComment();
+        }
+
+        return $comments;
     }
 }
