@@ -46,6 +46,27 @@ Route::group(['prefix' => 'products'], function () {
     Route::delete('{product}/like', 'ProductLikeController@delete')->middleware('auth');
 
     Route::post('{product}/carts', 'CartController@store');
+
+    Route::group(['prefix' => '{product}/reviews'], function () {
+        Route::get('', 'ProductReviewController@index');
+        Route::get('totals', 'ProductReviewController@total');
+        Route::post('', 'ProductReviewController@store')->middleware('auth');
+    });
+
+    Route::group(['prefix' => '{product}/comments'], function () {
+        Route::get('', 'ProductCommentController@index');
+        Route::post('', 'ProductCommentController@store');
+        Route::get('{productComment}', 'ProductCommentController@show');
+    });
+
+    Route::group(['prefix' => '{product}/models'], function () {
+        Route::get('', 'ProductModelController@index');
+        Route::get('{productModel}', 'ProductModelController@show');
+    });
+});
+
+Route::group(['prefix' => 'reviews'], function () {
+    Route::delete('{productReview}', 'ProductReviewController@delete')->middleware('auth');
 });
 
 Route::group(['prefix' => 'carts', 'middleware' => ['auth']], function () {
