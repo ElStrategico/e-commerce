@@ -4,8 +4,9 @@ namespace App\Providers;
 
 use App\Models\Cart;
 use App\Policies\CartPolicy;
+use App\Models\Produce\Product;
+use App\Policies\ProductPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Cart::class => CartPolicy::class
+        Cart::class     => CartPolicy::class,
+        Product::class  => ProductPolicy::class
     ];
 
     /**
