@@ -19,16 +19,14 @@ class SecurityService
     {
         if(!$token || !$token->isOwner($user))
         {
-            return response()->json([
-                'message' => 'Invalid token'
-            ], 422);
+            return false;
         }
 
         $user->$updatableColumn = $value;
         $user->save();
         $token->delete();
 
-        return $user;
+        return true;
     }
 
     /**

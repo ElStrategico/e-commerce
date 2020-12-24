@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Models\User;
+use App\Logger\Converter;
 use Illuminate\Http\Request;
 use App\Models\Produce\Product;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Produce\ProductSearch;
 use App\Models\Produce\ProductOptions;
@@ -22,7 +23,14 @@ class ProductController extends Controller
             new ProductOptions($request->input())
         );
 
-        return $searchEngine->search();
+        $products = $searchEngine->search();
+
+        Log::info(Converter::message([
+            'Call'             => 'ProductController@index',
+            'SearchedProducts' => $products->count()
+        ]));
+
+        return $products;
     }
 
     /**
@@ -42,6 +50,11 @@ class ProductController extends Controller
 
         $product->increaseViews();
 
+        Log::info(Converter::message([
+            'Call'    => 'ProductController@show',
+            'Product' => $product->id
+        ]));
+
         return $product;
     }
 
@@ -52,8 +65,15 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
         $request->merge(['user_id' => auth()->id()]);
+        $createProduct = Product::create($request->input());
 
-        return Product::create($request->input());
+        Log::info(Converter::message([
+            'Call'    => 'ProductController@store',
+            'Product' => $createProduct->id,
+            'User'    => auth()->id()
+        ]));
+
+        return $createProduct;
     }
 
     /**
@@ -65,6 +85,12 @@ class ProductController extends Controller
     {
         $product->update($request->input());
 
+        Log::info(Converter::message([
+            'Call'    => 'ProductController@update',
+            'Product' => $product->id,
+            'User'    => auth()->id()
+        ]));
+
         return $product;
     }
 
@@ -75,6 +101,12 @@ class ProductController extends Controller
     public function delete(Product $product)
     {
         $product->delete();
+
+        Log::info(Converter::message([
+            'Call'    => 'ProductController@delete',
+            'Product' => $product->id,
+            'User'    => auth()->id()
+        ]));
 
         return $product;
     }

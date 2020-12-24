@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Logger\Converter;
 use Illuminate\Http\Request;
 use App\Services\SecurityService;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
@@ -25,10 +27,23 @@ class SecurityController extends Controller
      */
     public function changeEmail(ChangeEmailRequest $request)
     {
-        return $this->securityService->changeEmail(
+        $changed = $this->securityService->changeEmail(
             $request->input('email'),
             $request->input('token')
         );
+
+        $logMessage = Converter::message([
+            'Call'           => 'SecurityController@changeEmail',
+            'ChangeableUser' => auth()->user()->email,
+            'NewEmail'       => $request->input('email'),
+            'Changed'        => $changed
+        ]);
+
+        $changed ? Log::info($logMessage) : Log::notice($logMessage);
+
+        return response()->json([
+            'changed' => $changed
+        ]);
     }
 
     /**
@@ -36,9 +51,21 @@ class SecurityController extends Controller
      */
     public function changePassword(ChangePasswordRequest $request)
     {
-        return $this->securityService->changePassword(
+        $changed = $this->securityService->changePassword(
             $request->input('new_password'),
             $request->input('token')
         );
+
+        $logMessage = Converter::message([
+            'Call'           => 'SecurityController@changePassword',
+            'ChangeableUser' => auth()->user()->email,
+            'Changed'        => $changed
+        ]);
+
+        $changed ? Log::info($logMessage) : Log::notice($logMessage);
+
+        return response()->json([
+            'changed' => $changed
+        ]);
     }
 }
