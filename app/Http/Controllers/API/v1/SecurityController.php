@@ -32,6 +32,12 @@ class SecurityController extends Controller
             $request->input('token')
         );
 
+        Log::info('Try to change email', [
+            'user'      => auth()->id(),
+            'new_email' => $request->input('email'),
+            'changed'   => $changed
+        ]);
+
         return response()->json([
             'changed' => $changed
         ]);
@@ -46,6 +52,11 @@ class SecurityController extends Controller
             $request->input('new_password'),
             $request->input('token')
         );
+
+        Log::info('Try to change password', [
+            'user'      => auth()->id(),
+            'changed'   => $changed
+        ]);
 
         return response()->json([
             'changed' => $changed
