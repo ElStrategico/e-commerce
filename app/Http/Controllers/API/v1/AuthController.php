@@ -20,22 +20,10 @@ class AuthController extends Controller
 
         if(!$token)
         {
-            Log::notice(Converter::message([
-                'Call'       => 'AuthController@login',
-                'Authorized' => 'false',
-                'User'       => $credentials['email']
-            ]));
-
             return response()->json([
                 'error' => 'Unauthorized'
             ], 401);
         }
-
-        Log::info(Converter::message([
-            'Call'       => 'AuthController@login',
-            'Authorized' => 'true',
-            'User'       => $credentials['email']
-        ]));
 
         return $this->responseToken($token);
     }
@@ -47,11 +35,6 @@ class AuthController extends Controller
     {
         $currentUser = auth()->user();
 
-        Log::info(Converter::message([
-            'Call'        => 'AuthController@me',
-            'CurrentUser' => $currentUser->email
-        ]));
-
         return response()->json($currentUser);
     }
 
@@ -61,11 +44,6 @@ class AuthController extends Controller
     public function refresh()
     {
         $currentUser = auth()->user();
-
-        Log::info(Converter::message([
-            'Call'        => 'AuthController@refresh',
-            'CurrentUser' => $currentUser->email
-        ]));
 
         return $this->responseToken(auth()->refresh());
     }
@@ -77,11 +55,6 @@ class AuthController extends Controller
     {
         $currentUser = auth()->user();
         auth()->logout();
-
-        Log::info(Converter::message([
-            'Call' => 'AuthController@logout',
-            'CurrentUser' => $currentUser->email
-        ]));
 
         return response()->json([
             'message' => 'Successfully logged out'

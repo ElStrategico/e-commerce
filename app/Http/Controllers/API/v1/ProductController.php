@@ -25,11 +25,6 @@ class ProductController extends Controller
 
         $products = $searchEngine->search();
 
-        Log::info(Converter::message([
-            'Call'             => 'ProductController@index',
-            'SearchedProducts' => $products->count()
-        ]));
-
         return $products;
     }
 
@@ -50,11 +45,6 @@ class ProductController extends Controller
 
         $product->increaseViews();
 
-        Log::info(Converter::message([
-            'Call'    => 'ProductController@show',
-            'Product' => $product->id
-        ]));
-
         return $product;
     }
 
@@ -66,12 +56,6 @@ class ProductController extends Controller
     {
         $request->merge(['user_id' => auth()->id()]);
         $createProduct = Product::create($request->input());
-
-        Log::info(Converter::message([
-            'Call'    => 'ProductController@store',
-            'Product' => $createProduct->id,
-            'User'    => auth()->id()
-        ]));
 
         return $createProduct;
     }
@@ -85,12 +69,6 @@ class ProductController extends Controller
     {
         $product->update($request->input());
 
-        Log::info(Converter::message([
-            'Call'    => 'ProductController@update',
-            'Product' => $product->id,
-            'User'    => auth()->id()
-        ]));
-
         return $product;
     }
 
@@ -101,12 +79,6 @@ class ProductController extends Controller
     public function delete(Product $product)
     {
         $product->delete();
-
-        Log::info(Converter::message([
-            'Call'    => 'ProductController@delete',
-            'Product' => $product->id,
-            'User'    => auth()->id()
-        ]));
 
         return $product;
     }

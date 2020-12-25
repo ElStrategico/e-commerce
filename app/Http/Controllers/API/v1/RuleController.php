@@ -13,11 +13,6 @@ class RuleController extends Controller
     {
         $user = User::find(auth()->id());
 
-        Log::info(Converter::message([
-            'Call' => 'RuleController@index',
-            'User' => $user->email
-        ]));
-
         return $user->rules;
     }
 }

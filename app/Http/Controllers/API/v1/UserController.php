@@ -18,21 +18,11 @@ class UserController extends Controller
     {
         $createdUser = User::create($request->input());
 
-        Log::info(Converter::message([
-            'Call'        => 'UserController@create',
-            'CreatedUser' => $createdUser->email
-        ]));
-
         return $createdUser;
     }
 
     public function show(User $user)
     {
-        Log::info(Converter::message([
-            'Call'     => 'UserController@show',
-            'ShowUser' => $user->email
-        ]));
-
         return $user;
     }
 }

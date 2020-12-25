@@ -32,15 +32,6 @@ class SecurityController extends Controller
             $request->input('token')
         );
 
-        $logMessage = Converter::message([
-            'Call'           => 'SecurityController@changeEmail',
-            'ChangeableUser' => auth()->user()->email,
-            'NewEmail'       => $request->input('email'),
-            'Changed'        => $changed
-        ]);
-
-        $changed ? Log::info($logMessage) : Log::notice($logMessage);
-
         return response()->json([
             'changed' => $changed
         ]);
@@ -55,14 +46,6 @@ class SecurityController extends Controller
             $request->input('new_password'),
             $request->input('token')
         );
-
-        $logMessage = Converter::message([
-            'Call'           => 'SecurityController@changePassword',
-            'ChangeableUser' => auth()->user()->email,
-            'Changed'        => $changed
-        ]);
-
-        $changed ? Log::info($logMessage) : Log::notice($logMessage);
 
         return response()->json([
             'changed' => $changed
