@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Logger\Converter;
 use Illuminate\Http\Request;
 use App\Models\Produce\Product;
+use SebastianBergmann\Timer\Timer;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Produce\ProductSearch;
@@ -15,15 +15,31 @@ use App\Http\Requests\UpdateProductRequest;
 class ProductController extends Controller
 {
     /**
+     * @var Timer
+     */
+    private $timer;
+
+    public function __construct()
+    {
+        $this->timer = new Timer();
+    }
+
+    /**
      * @param Request $request
      */
     public function index(Request $request)
     {
+        $this->timer->start();
         $searchEngine = new ProductSearch(
             new ProductOptions($request->input())
         );
-
         $products = $searchEngine->search();
+        $duration = $this->timer->stop();
+
+        Log::info('Show products', [
+            'time' => $duration->asMilliseconds(),
+            'params' => $request->input()
+        ]);
 
         return $products;
     }
@@ -34,6 +50,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        $this->timer->start();
+        //TODO: Refactoring
         $product->category;
         foreach($product->models as $model)
         {
@@ -42,8 +60,14 @@ class ProductController extends Controller
         $product->images;
         $product->videos;
         $product->details;
-
         $product->increaseViews();
+        //TODO: Refactoring
+        $duration = $this->timer->stop();
+
+        Log::info('Show product', [
+            'time'      => $duration->asMilliseconds(),
+            'product'   => $product->id
+        ]);
 
         return $product;
     }
@@ -57,6 +81,10 @@ class ProductController extends Controller
         $request->merge(['user_id' => auth()->id()]);
         $createProduct = Product::create($request->input());
 
+        Log::info('Created product', [
+            'product' => $createProduct->id
+        ]);
+
         return $createProduct;
     }
 
@@ -69,6 +97,11 @@ class ProductController extends Controller
     {
         $product->update($request->input());
 
+        Log::info('Update product', [
+            'product' => $product->id,
+            'user'    => auth()->id()
+        ]);
+
         return $product;
     }
 
@@ -79,6 +112,11 @@ class ProductController extends Controller
     public function delete(Product $product)
     {
         $product->delete();
+
+        Log::info('Delete product', [
+            'product' => $product->id,
+            'user'    => auth()->id()
+        ]);
 
         return $product;
     }
