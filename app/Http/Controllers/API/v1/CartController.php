@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\Produce\Product;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Produce\ProductModel;
 
@@ -15,12 +16,20 @@ class CartController extends Controller
     {
         $user = User::find(auth()->id());
 
+        Log::info('Show products in cart', [
+            'owner' => $user->email
+        ]);
+
         return $user->cartsProducts();
     }
 
     public function total()
     {
         $user = User::find(auth()->id());
+
+        Log::info('Show number of products in cart', [
+            'owner' => $user->email
+        ]);
 
         return Cart::total($user);
     }
@@ -35,6 +44,13 @@ class CartController extends Controller
     {
         $user = User::find(auth()->id());
         $amount = (int)$request->input('amount');
+
+        Log::info('Save product to cart', [
+            'user'    => $user->id,
+            'product' => $product->id,
+            'model'   => $productModel ? $productModel->id : null,
+            'amount'  => $amount
+        ]);
 
         return Cart::add($amount, $user, $product, $productModel);
     }
