@@ -40,7 +40,7 @@ class AuthController extends Controller
         $currentUser = auth()->user();
 
         Log::info('Show current user', [
-            'email' => $currentUser->email
+            'user' => $currentUser->id
         ]);
 
         return response()->json($currentUser);
@@ -54,7 +54,7 @@ class AuthController extends Controller
         $currentUser = auth()->user();
 
         Log::info('Refresh token', [
-            'email' => $currentUser->email
+            'user' => $currentUser->id
         ]);
 
         return $this->responseToken(auth()->refresh());
@@ -69,7 +69,7 @@ class AuthController extends Controller
         auth()->logout();
 
         Log::info('Logout', [
-            'email' => $currentUser->email
+            'user' => $currentUser->id
         ]);
 
         return response()->json([
