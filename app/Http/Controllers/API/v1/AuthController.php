@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Logger\Converter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -17,6 +16,11 @@ class AuthController extends Controller
     {
         $credentials = $request->only(['email', 'password']);
         $token = auth()->attempt($credentials);
+
+        Log::info('Attempt to login', [
+            'email'     => $credentials['email'],
+            'autorized' => (bool)$token
+        ]);
 
         if(!$token)
         {
@@ -35,6 +39,10 @@ class AuthController extends Controller
     {
         $currentUser = auth()->user();
 
+        Log::info('Show current user', [
+            'email' => $currentUser->email
+        ]);
+
         return response()->json($currentUser);
     }
 
@@ -44,6 +52,10 @@ class AuthController extends Controller
     public function refresh()
     {
         $currentUser = auth()->user();
+
+        Log::info('Refresh token', [
+            'email' => $currentUser->email
+        ]);
 
         return $this->responseToken(auth()->refresh());
     }
@@ -55,6 +67,10 @@ class AuthController extends Controller
     {
         $currentUser = auth()->user();
         auth()->logout();
+
+        Log::info('Logout', [
+            'email' => $currentUser->email
+        ]);
 
         return response()->json([
             'message' => 'Successfully logged out'
