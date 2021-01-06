@@ -78,4 +78,13 @@ class Product extends Model
 
         return $comments;
     }
+
+    public static function firstWith($id)
+    {
+        $with = ['category', 'models', 'reviews', 'comments', 'images', 'videos', 'details'];
+
+        return self::with($with)->
+                     where('id', $id)->
+                     firstOrFail();
+    }
 }
