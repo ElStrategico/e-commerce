@@ -48,25 +48,17 @@ class ProductController extends Controller
      * @param Product $product
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Product $product)
+    public function show($product)
     {
         $this->timer->start();
-        //TODO: Refactoring
-        $product->category;
-        foreach($product->models as $model)
-        {
-            $model->details;
-        }
-        $product->images;
-        $product->videos;
-        $product->details;
-        $product->increaseViews();
-        //TODO: Refactoring
+
+        $product = Product::firstWith($product);
+
         $duration = $this->timer->stop();
 
         Log::info('Show product', [
             'time'      => $duration->asMilliseconds(),
-            'product'   => $product->id
+            'product'   => $product
         ]);
 
         return $product;
