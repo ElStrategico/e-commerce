@@ -52,7 +52,7 @@ class ProductController extends Controller
     {
         $this->timer->start();
 
-        $product = Product::firstWith($product);
+        $product = Product::firstWithRelations($product);
 
         $duration = $this->timer->stop();
 
