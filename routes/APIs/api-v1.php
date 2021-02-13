@@ -76,3 +76,7 @@ Route::group(['prefix' => 'carts', 'middleware' => ['auth']], function () {
     Route::put('{cart}', 'CartController@update')->middleware('can:owner,cart');
     Route::delete('{cart}', 'CartController@delete')->middleware('can:owner,cart');
 });
+
+Route::group(['prefix' => 'categories'], function () {
+    Route::get('', 'CategoryController@index');
+});
