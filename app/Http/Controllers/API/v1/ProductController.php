@@ -30,10 +30,12 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $this->timer->start();
+
         $searchEngine = new ProductSearch(
             new ProductOptions($request->input())
         );
         $products = $searchEngine->search();
+
         $duration = $this->timer->stop();
 
         Log::info('Show products', [
@@ -45,14 +47,21 @@ class ProductController extends Controller
     }
 
     /**
-     * @param Product $product
+     * @param int|string $product
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($product)
     {
         $this->timer->start();
 
-        $product = Product::firstWithRelations($product);
+        if((int)$product)
+        {
+            $product = Product::firstWithRelations($product);
+        }
+        else
+        {
+            $product = Product::findByCode($product);
+        }
 
         $duration = $this->timer->stop();
 

@@ -9,6 +9,6 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return ProductCategory::get();
+        return ProductCategory::withCount('products')->get();
     }
 }

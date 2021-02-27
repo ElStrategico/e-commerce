@@ -4,10 +4,13 @@ namespace App\Models\Produce;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use SoftDeletes;
+    const TREND_LIMIT = 8;
+
+    use SoftDeletes, HasFactory;
 
     protected $fillable = [
         'name', 'description', 'main_img', 'price', 'views', 'user_id', 'category_id'
@@ -79,9 +82,32 @@ class Product extends Model
         return $comments;
     }
 
-    public static function firstWithRelations($id, $with = ['category', 'models', 'reviews', 'comments', 'images', 'videos', 'details'])
+    public static function trend($limit = self::TREND_LIMIT)
     {
-        return self::with($with)->
+        return self::inRandomOrder()->
+                     limit($limit)->
+                     get();
+    }
+
+    /**
+     * @param string $code
+     * @return \Illuminate\Database\Eloquent\Builder|Model
+     */
+    public static function findByCode($code)
+    {
+        return self::withRelations()->
+                     where('code', $code)->
+                     firstOrFail();
+    }
+
+    public static function withRelations($with = ['category', 'models', 'reviews', 'comments', 'images', 'videos', 'details'])
+    {
+        return self::with($with);
+    }
+
+    public static function firstWithRelations($id)
+    {
+        return self::withRelations()->
                      where('id', $id)->
                      firstOrFail();
     }

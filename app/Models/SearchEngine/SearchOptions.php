@@ -80,6 +80,14 @@ class SearchOptions
     }
 
     /**
+     * @param int $limit
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+    }
+
+    /**
      * @return string
      */
     public function getSortedBy()

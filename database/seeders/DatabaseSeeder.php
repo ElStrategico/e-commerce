@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Produce\Product;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RulesTableSeeder;
 use Doctrine\Inflector\Rules\English\Rules;
@@ -16,5 +17,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         (new RulesTableSeeder())->run();
+        Product::factory()->count(100)->create();
     }
 }

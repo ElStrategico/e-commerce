@@ -65,6 +65,10 @@ Route::group(['prefix' => 'products'], function () {
     });
 });
 
+Route::group(['prefix' => 'trends'], function () {
+    Route::get('products', 'TrendController@index');
+});
+
 Route::group(['prefix' => 'reviews'], function () {
     Route::delete('{productReview}', 'ProductReviewController@delete')->middleware('auth');
 });
@@ -79,4 +83,8 @@ Route::group(['prefix' => 'carts', 'middleware' => ['auth']], function () {
 
 Route::group(['prefix' => 'categories'], function () {
     Route::get('', 'CategoryController@index');
+});
+
+Route::group(['prefix' => 'prices'], function () {
+    Route::get('', 'PriceController@index');
 });
