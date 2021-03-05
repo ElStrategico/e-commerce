@@ -40,6 +40,7 @@ class Cart extends Model
         return self::where('user_id', '=', $user->id)->
                      where('product_id', '=', $product->id)->
                      where('model_id', '=', $productModel)->
+                     where('archive', '!=', self::ARCHIVE)->
                      first();
     }
 
@@ -49,6 +50,7 @@ class Cart extends Model
     public static function total(User $user)
     {
         return self::where('user_id', '=', $user->id)->
+                     where('archive', '!=', self::ARCHIVE)->
                      sum('amount');
     }
 

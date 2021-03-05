@@ -35,7 +35,14 @@ abstract class Search extends Model
             list($column, $operator, $value) = $condition;
             if($value !== null)
             {
-                $query->where($column, $operator, $value);
+                if(is_array($value))
+                {
+                    $query->whereIn($column, $value);
+                }
+                else
+                {
+                    $query->where($column, $operator, $value);
+                }
             }
         }
 

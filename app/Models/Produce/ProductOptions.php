@@ -10,6 +10,7 @@ class ProductOptions extends SearchOptions
     {
         parent::__construct($options);
 
+        $this->addCondition('id', '=', $options['products_ids'] ?? null);
         $this->addCondition('category_id', '=', $options['category_id'] ?? null);
         $this->addCondition('price', '>=', $options['min_price'] ?? null);
         $this->addCondition('price', '<=', $options['max_price'] ?? null);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\IntHelper;
 use App\Models\Rule;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -23,7 +24,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'avatar'
+        'avatar',
+        'email_verify_token'
     ];
 
     /**
@@ -53,6 +55,7 @@ class User extends Authenticatable implements JWTSubject
     public function cartsProducts()
     {
         return $this->hasMany(Cart::class)->
+                      select('products.*', 'carts.id AS position_id', 'carts.amount')->
                       join('products', 'carts.product_id', '=', 'products.id')->
                       where('archive', '!=', Cart::ARCHIVE)->
                       get();
@@ -73,6 +76,13 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return false;
+    }
+
+    public function resetEmailVerifyToken()
+    {
+        $this->email_verify_token = null;
+
+        $this->save();
     }
 
     /**
@@ -102,6 +112,8 @@ class User extends Authenticatable implements JWTSubject
     public static function create(array $attributes)
     {
         $attributes['password'] = Hash::make($attributes['password']);
+        $attributes['email_verify_token'] = EmailVerifyToken::generate();
+
         $createdUser = (new static)->newQuery()->create($attributes);
 
         return User::find($createdUser['id']);

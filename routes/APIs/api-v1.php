@@ -24,6 +24,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['prefix' => 'users'], function () {
     Route::post('', 'UserController@create');
+    Route::post('avatars', 'AvatarController@upload');
 });
 
 Route::group(['prefix' => 'rules'], function () {
@@ -33,6 +34,8 @@ Route::group(['prefix' => 'rules'], function () {
 Route::group(['prefix' => 'security'], function () {
     Route::put('email', 'SecurityController@changeEmail')->middleware('auth');
     Route::put('password', 'SecurityController@changePassword')->middleware('auth');
+
+    Route::post('verify-email', 'EmailVerifyController@verify')->middleware('auth');
 });
 
 Route::group(['prefix' => 'products'], function () {
