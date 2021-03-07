@@ -11,7 +11,7 @@ class ProductReviewController extends Controller
 {
     public function index(Product $product)
     {
-        return $product->reviews;
+        return $product->reviews()->with('user')->orderBy('id', 'DESC')->paginate(10);
     }
 
     public function total(Product $product)
