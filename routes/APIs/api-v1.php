@@ -91,3 +91,10 @@ Route::group(['prefix' => 'categories'], function () {
 Route::group(['prefix' => 'prices'], function () {
     Route::get('', 'PriceController@index');
 });
+
+Route::group(['prefix' => 'cites'], function () {
+    Route::get('', 'CityController@index');
+    Route::post('', 'CityController@store')->middleware('check:admin');
+    Route::put('{city}', 'CityController@update')->middleware('check:admin');
+    Route::delete('{city}', 'CityController@delete')->middleware('check:admin');
+});

@@ -22,15 +22,6 @@ class EmailVerifyToken
      */
     public static function generate()
     {
-        while(true)
-        {
-            $token = IntHelper::random();
-            $user = User::where('email_verify_token', $token);
-
-            if(!$user)
-            {
-                return $token;
-            }
-        }
+        return IntHelper::random();
     }
 }
