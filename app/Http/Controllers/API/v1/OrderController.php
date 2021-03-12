@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Models\Cart;
 use App\Models\Order;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\OrderPosition;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,19 @@ use App\Http\Requests\CreateOrderRequest;
 
 class OrderController extends Controller
 {
+    public function index(Request $request)
+    {
+        if(!auth()->guest())
+        {
+            return Order::findForUser(auth()->id());
+        }
+        else
+        {
+            $tokens = $request->input('tokens') ?? [];
+            return Order::findByTokens($tokens);
+        }
+    }
+
     public function store(CreateOrderRequest $request)
     {
         if(!$guest = auth()->guest())
@@ -18,24 +32,6 @@ class OrderController extends Controller
             $request->merge(['user_id' => auth()->id()]);
         }
 
-        /* @var Order $order */
-        $order = Order::create($request->input());
-        $orderPositions = $request->input('order_positions');
-
-        foreach($orderPositions as $orderPosition)
-        {
-            OrderPosition::add($order->id, $orderPosition);
-            if(!$guest)
-            {
-                /* @var Cart|null $position */
-                $position = Cart::find($orderPosition['position_id']);
-                if($position && $position->user_id === auth()->id())
-                {
-                    $position->archive();
-                }
-            }
-        }
-
-        return $order;
+        return Order::create($request->input());
     }
 }
