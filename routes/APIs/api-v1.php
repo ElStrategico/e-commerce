@@ -100,5 +100,6 @@ Route::group(['prefix' => 'cites'], function () {
 });
 
 Route::group(['prefix' => 'orders'], function () {
+    Route::get('', 'OrderController@index');
     Route::post('', 'OrderController@store');
 });
