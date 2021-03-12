@@ -20,6 +20,8 @@ class CreateOrdersTable extends Migration
             $table->string('address');
             $table->string('phone');
             $table->string('email');
+            $table->string('token');
+            $table->unsignedBigInteger('order_status_id')->references('id')->on('order_statuses');
             $table->timestamps();
         });
     }
