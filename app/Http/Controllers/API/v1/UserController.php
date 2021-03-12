@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Models\User;
-use App\Logger\Converter;
-use Illuminate\Support\Facades\Log;
+use App\Services\CartService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 
@@ -17,6 +16,8 @@ class UserController extends Controller
     public function create(CreateUserRequest $request)
     {
         $createdUser = User::create($request->input());
+
+        CartService::import($request->input('orders'), $createdUser);
 
         return $createdUser;
     }

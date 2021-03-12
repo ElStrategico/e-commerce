@@ -6,6 +6,9 @@ use App\Models\Produce\Product;
 use App\Models\Produce\ProductModel;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $user_id
+ */
 class Cart extends Model
 {
     const ARCHIVE = 1;

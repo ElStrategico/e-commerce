@@ -98,3 +98,7 @@ Route::group(['prefix' => 'cites'], function () {
     Route::put('{city}', 'CityController@update')->middleware('check:admin');
     Route::delete('{city}', 'CityController@delete')->middleware('check:admin');
 });
+
+Route::group(['prefix' => 'orders'], function () {
+    Route::post('', 'OrderController@store');
+});
