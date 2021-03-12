@@ -26,9 +26,10 @@
   <component name="ChangeListManager">
     <list default="true" id="64aedd71-1e8f-4531-93c8-9fd6c2915d41" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/v1/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/v1/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/v1/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/v1/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Cart.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Cart.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/v1/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/v1/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/OrderPosition.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/OrderPosition.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_11_152828_create_orders_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_11_152828_create_orders_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/APIs/api-v1.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/APIs/api-v1.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -205,6 +206,13 @@
       <workItem from="1615547018741" duration="29000" />
       <workItem from="1615549451079" duration="65000" />
       <workItem from="1615549530513" duration="271000" />
+      <workItem from="1615564284805" duration="60000" />
+      <workItem from="1615565315835" duration="212000" />
+      <workItem from="1615565613923" duration="12000" />
+      <workItem from="1615566255039" duration="28000" />
+      <workItem from="1615568476411" duration="1534000" />
+      <workItem from="1615571781574" duration="378000" />
+      <workItem from="1615575194158" duration="1067000" />
     </task>
     <servers />
   </component>
@@ -222,5 +230,19 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="465" y="153" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1615569125305">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="465" y="153" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860@0.0.1440.860" timestamp="1615569125305" />
+    <state x="478" y="153" key="NewPhpClassDialog" timestamp="1615568990893">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="478" y="153" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1615568990893" />
+    <state x="376" y="195" key="run.anything.popup" timestamp="1615571955310">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="376" y="195" key="run.anything.popup/0.0.1440.860@0.0.1440.860" timestamp="1615571955310" />
   </component>
 </project>
