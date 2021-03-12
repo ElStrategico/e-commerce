@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Produce\Product;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderPosition extends Model
@@ -11,6 +12,11 @@ class OrderPosition extends Model
         'order_id',
         'product_id'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 
     public static function add($orderId, $position)
     {
